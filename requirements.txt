@@ -1,0 +1,4 @@
+intervaltree==3.1.0
+librosa==0.8.1
+numpy==1.20.3
+scikit-image==0.19.1
