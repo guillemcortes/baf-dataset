@@ -6,8 +6,22 @@ import intervaltree as itree
 
 
 def create_tree(gts, results, threshold=None):
-
+    """Creates intervaltree with Groundtruth and Tech results.
+    Args:
+        results (DataFrame): Tech results pandas DataFrame.
+        gts (DataFrame): Groundtruth (annotations) pandas DataFrame.
+    Returns:
+        tree (intervaltree): tree.
+    """
     def _add_to_tree(tree, segments, tag):
+        """Add relevant segments to the tree.
+        Args:
+            tree (intervaltree): tree.
+            segments (DataFrame): Segments desired to be added to the tree.
+            tag (str): "GT" or "RS". Segment tag.
+        Returns:
+            tree (intervaltree): updated tree.
+        """
         for idx, s in segments.iterrows():
             if (s['query_end'] - s['query_start']) <= 0:
                 # intervaltree doesn't allow 0-length segments
@@ -32,6 +46,15 @@ def create_tree(gts, results, threshold=None):
 
 
 def extract_ids_from_segments(df, status, tag):
+    """Extract ids from segments.
+    Filter segments by status and type (tag).
+    Args:
+        df (DataFrame):  DataFrame
+        status (str): "TP" True Positive, "FP" False Positive, "TN" True Negative, "FN" False Negative.
+        tag (str): "GT" or "RS". Segment tag.
+    Returns:
+        ids_unique (list): list with unique ids.
+    """
     ids = []
     for idx, row in df.query('status == "%s"' % status).iterrows():
         ids += [int(v.split(" ")[1]) for v in row['debug'] if v.startswith(tag)]
@@ -41,6 +64,15 @@ def extract_ids_from_segments(df, status, tag):
 
 
 def sum_seconds_from_segments(df, status, tag):
+    """Sum seconds from segments.
+    Filter segments by status and type (tag).
+    Args:
+        df (DataFrame):  DataFrame
+        status (str): "TP" True Positive, "FP" False Positive, "TN" True Negative, "FN" False Negative.
+        tag (str): "GT" or "RS". Segment tag.
+    Returns:
+        seconds (float): Summed seconds from segments.
+    """
     seconds = 0
     for idx, row in df.query('status == "%s"' % status).iterrows():
         number_segments = len([l for l in row['debug'] if l.startswith(tag)])
@@ -50,8 +82,15 @@ def sum_seconds_from_segments(df, status, tag):
 
 
 def compute_statistics(results, gts, threshold=None):
-
+    """Compute statistics.
+    Args:
+        results (DataFrame): Tech results pandas DataFrame.
+        gts (DataFrame): Groundtruth (annotations) pandas DataFrame.
+    Returns:
+        out_stats (dict): Dictionary with stats values.
+    """
     def _merge_segments_data(data1, data2):
+        """Merge overlapping segments in intervaltree."""
         return data1 + data2
 
     out_stats = {}
