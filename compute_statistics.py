@@ -1,15 +1,20 @@
-import sys
+""" Measure the performance of AFP algorithms.
+Compute statistics and metrics to measure the performance of an AFP algorithm.
+This code has been used in the publication 'BAF: An Audio Fingerprinting Dataset
+for Broadcast Monitoring' by Guillem Cortès, Alex Ciurana, Emilio Molina, Marius
+Miron, Owen Meyers, Joren Six and Xavier Serra.
+"""
 import argparse
 import pprint
 import pandas as pd
 import intervaltree as itree
 
 
-def create_tree(gts, results, threshold=None):
+def create_tree(groundtruths, results, threshold=None):
     """Creates intervaltree with Groundtruth and Tech results.
     Args:
         results (DataFrame): Tech results pandas DataFrame.
-        gts (DataFrame): Groundtruth (annotations) pandas DataFrame.
+        groundtruths (DataFrame): Groundtruth (annotations) pandas DataFrame.
     Returns:
         tree (intervaltree): tree.
     """
@@ -23,71 +28,73 @@ def create_tree(gts, results, threshold=None):
         Returns:
             tree (intervaltree): updated tree.
         """
-        for idx, s in segments.iterrows():
-            if (s["query_end"] - s["query_start"]) <= 0:
+        for idx, seg in segments.iterrows():
+            if (seg["query_end"] - seg["query_start"]) <= 0:
                 # intervaltree doesn't allow 0-length segments
                 continue
-            if threshold is not None and tag == "RS" and s["score"] < threshold:
+            if threshold is not None and tag == "RS" and seg["score"] < threshold:
                 continue
             interval = itree.Interval(
-                s["query_start"], s["query_end"], ["%s %s" % (tag, idx)]
+                seg["query_start"], seg["query_end"], [f"{tag} {idx}"]
             )
 
-            if s["query"] not in tree:
-                tree[s["query"]] = {}
-            if s["reference"] not in tree[s["query"]]:
-                tree[s["query"]][s["reference"]] = itree.IntervalTree()
-            tree[s["query"]][s["reference"]].add(interval)
+            if seg["query"] not in tree:
+                tree[seg["query"]] = {}
+            if seg["reference"] not in tree[seg["query"]]:
+                tree[seg["query"]][seg["reference"]] = itree.IntervalTree()
+            tree[seg["query"]][seg["reference"]].add(interval)
         return tree
 
     tree = {}
-    tree = _add_to_tree(tree, gts, "GT")
+    tree = _add_to_tree(tree, groundtruths, "GT")
     tree = _add_to_tree(tree, results, "RS")
 
     return tree
 
 
-def extract_ids_from_segments(df, status, tag):
+def extract_ids_from_segments(segments, status, tag):
     """Extract ids from segments with specific status and type (tag).
     Args:
-        df (DataFrame):  DataFrame
-        status (str): "TP" True Positive, "FP" False Positive, "TN" True Negative, "FN" False Negative.
+        segments (DataFrame):  DataFrame
+        status (str): "TP" True Positive, "FP" False Positive,
+                      "TN" True Negative, "FN" False Negative.
         tag (str): "GT" or "RS". Segment tag.
     Returns:
         ids_unique (list): list with unique ids.
     """
     ids = []
-    for idx, row in df.query('status == "%s"' % status).iterrows():
+    for _, row in segments.query(f'status == "{status}"').iterrows():
         ids += [int(v.split(" ")[1]) for v in row["debug"] if v.startswith(tag)]
     ids_unique = set(ids)
 
     return ids_unique
 
 
-def sum_seconds_from_segments(df, status, tag):
+def sum_seconds_from_segments(segments, status, tag):
     """Sum seconds from segments.
     Filtering segments by status and type (tag). This method counts duplicate
     matches.
     Args:
-        df (DataFrame):  DataFrame
-        status (str): "TP" True Positive, "FP" False Positive, "TN" True Negative, "FN" False Negative.
+        segments (DataFrame):  DataFrame
+        status (str): "TP" True Positive, "FP" False Positive,
+                      "TN" True Negative, "FN" False Negative.
         tag (str): "GT" or "RS". Segment tag.
     Returns:
         seconds (float): Summed seconds from segments.
     """
     seconds = 0
-    for idx, row in df.query('status == "%s"' % status).iterrows():
+    for _, row in segments.query(f'status == "{status}"').iterrows():
         number_segments = len([l for l in row["debug"] if l.startswith(tag)])
         seconds += number_segments * (row.end - row.begin)
 
     return seconds
 
 
-def compute_statistics(results, gts, threshold=None):
+def compute_statistics(results, groundtruths, threshold=None):
     """Compute statistics.
     Args:
         results (DataFrame): Tech results pandas DataFrame.
-        gts (DataFrame): Groundtruth (annotations) pandas DataFrame.
+        groundtruths (DataFrame): Groundtruth (annotations) pandas DataFrame.
     Returns:
         out_stats (dict): Dictionary with stats values.
     """
@@ -99,7 +106,7 @@ def compute_statistics(results, gts, threshold=None):
     out_stats = {}
 
     # MERGE RESULTS AND GROUNDTRUTH
-    mixed_tree = create_tree(gts, results, threshold)
+    mixed_tree = create_tree(groundtruths, results, threshold)
     for query, ref_trees in mixed_tree.items():
         for ref, tree in ref_trees.items():
             tree.split_overlaps()
@@ -145,7 +152,7 @@ def compute_statistics(results, gts, threshold=None):
     # Results segments precision
     precision = len(tps_rs_unique) / (len(tps_rs_unique) + len(fps_rs_unique))
     # GroundTruth segments recall
-    recall_GT = len(tps_gt_unique) / (len(tps_gt_unique) + len(fns_gt_unique))
+    recall_gt = len(tps_gt_unique) / (len(tps_gt_unique) + len(fns_gt_unique))
 
     out_stats["uniques"] = {
         "TP_results": len(tps_rs_unique),
@@ -153,7 +160,7 @@ def compute_statistics(results, gts, threshold=None):
         "FP_results": len(fps_rs_unique),
         "FN_groundtruth": len(fns_gt_unique),
         "TP_match_ratio": len(tps_rs_unique) / len(tps_gt_unique),
-        "metrics": {"precision": precision, "recall_GT": recall_GT},
+        "metrics": {"precision": precision, "recall_GT": recall_gt},
         "check": {
             "TP_plus_FP_results": len(tps_rs_unique) + len(fps_rs_unique),  # results
             "TP_plus_FN_groundtruth": len(tps_gt_unique) + len(fns_gt_unique),  # GT
@@ -187,26 +194,17 @@ def compute_statistics(results, gts, threshold=None):
     }
 
     tp_seconds = sum(
-        [
-            row.end - row.begin
-            for idx, row in mixed_df.query('status == "TP"').iterrows()
-        ]
+        [row.end - row.begin for _, row in mixed_df.query('status == "TP"').iterrows()]
     )
     fp_seconds = sum(
-        [
-            row.end - row.begin
-            for idx, row in mixed_df.query('status == "FP"').iterrows()
-        ]
+        [row.end - row.begin for _, row in mixed_df.query('status == "FP"').iterrows()]
     )
     fn_seconds = sum(
-        [
-            row.end - row.begin
-            for idx, row in mixed_df.query('status == "FN"').iterrows()
-        ]
+        [row.end - row.begin for _, row in mixed_df.query('status == "FN"').iterrows()]
     )
 
     overlength_seconds = 0
-    for idx, row in mixed_df.query('status == "FP"').iterrows():
+    for _, row in mixed_df.query('status == "FP"').iterrows():
         rs_ids = set([int(v.split(" ")[1]) for v in row["debug"] if v.startswith("RS")])
         rs_ids -= tps_rs_unique
         if len(rs_ids) > 0:
@@ -253,7 +251,8 @@ if __name__ == "__main__":
         "results_file",
         help=(
             "Results file path. It has to be as csv with at least the following "
-            "fields in the header: {query, reference, query_start, query_end, ref_start, ref_end, score}"
+            "fields in the header: {query, reference, query_start, query_end,"
+            "ref_start, ref_end, score}"
         ),
     )
     parser.add_argument("annotations_file", help="Annotations groundtruth file path.")
@@ -265,18 +264,18 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    out_stats = {}
-    out_stats["input"] = {
+    stats = {}
+    stats["input"] = {
         "results_file": args.results_file,
         "groundtruth_file": args.annotations_file,
         "cross_annotation_tag": args.xtag,
     }
 
     # LOAD RESULTS
-    results = pd.read_csv(args.results_file)
-    out_stats["results"] = {
-        "num": len(results),
-        "seconds": sum([r.query_end - r.query_start for idx, r in results.iterrows()]),
+    res = pd.read_csv(args.results_file)
+    stats["results"] = {
+        "num": len(res),
+        "seconds": sum([r.query_end - r.query_start for _, r in res.iterrows()]),
     }
 
     # LOAD GROUNDTRUTH
@@ -288,11 +287,11 @@ if __name__ == "__main__":
     elif args.xtag == "single":
         gts = gts[gts["x_tag"].isin(["unanimity", "majority", "single"])]
     gts.reset_index(inplace=True, drop=True)
-    out_stats["groundtruth"] = {
+    stats["groundtruth"] = {
         "num": len(gts),
-        "seconds": sum([gt.query_end - gt.query_start for idx, gt in gts.iterrows()]),
+        "seconds": sum([gt.query_end - gt.query_start for _, gt in gts.iterrows()]),
     }
 
     # COMPUTE STATISTICS
-    out_stats.update(compute_statistics(results, gts, args.threshold))
-    pprint.pprint(out_stats)
+    stats.update(compute_statistics(res, gts, args.threshold))
+    pprint.pprint(stats)
