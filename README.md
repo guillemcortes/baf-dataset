@@ -2,6 +2,10 @@ This repository contains the necessary scripts to reproduce the work: "BAF: An A
 
 [![paper](https://img.shields.io/badge/preprint-10230/54139-green?logo=arxiv)](https://repositori.upf.edu/handle/10230/54139)
 
+<img src="https://user-images.githubusercontent.com/25322884/197386574-e7549d11-1917-4ed6-b07c-c281ab1f61c4.png" alt="BAF thumbnail" style="max-width:20px;"/> [poster](docs/baf_poster_ismir2022.pdf)
+
+<img src="https://user-images.githubusercontent.com/25322884/197385744-16028fa4-226f-4b49-a586-2f848327b823.png" alt="BAF thumbnail" style="max-width:300px;"/>
+
 # Dataset
 Broadcast Audio Fingerprinting dataset is an open, available upon request, annotated dataset for the task of music monitoring in broadcast. It contains 2,000 tracks from Epidemic Sound's private catalogue as reference tracks that represent 74 hours. As queries, it contains over 57 hours of TV broadcast audio from 23 countries and 203 channels distributed with 3,425 one-min audio excerpts.
 
@@ -84,3 +88,7 @@ This research is part of *NextCore – New generation of music monitoring techno
   <img src="https://user-images.githubusercontent.com/25322884/186637746-e18c4517-250c-4474-b11e-58df1e1f0787.jpeg" height="50" hspace="10" vspace="10"/>
   <img src="https://user-images.githubusercontent.com/25322884/186637861-24a64957-f82b-4faa-be34-5b1221bbd05c.png" height="50" hspace="10" vspace="10"/>
 </p>
+
+---
+
+<a href="https://www.flaticon.com/free-icons/pdf" title="pdf icons">Pdf icons created by Roman Káčerek - Flaticon</a>
