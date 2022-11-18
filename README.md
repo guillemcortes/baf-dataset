@@ -1,17 +1,19 @@
-This repository contains the necessary scripts to reproduce the work: "BAF: An Audio Fingerprinting Dataset For Broadcast Monitoring".
+This is an official page of "BAF: An Audio Fingerprinting Dataset For Broadcast Monitoring" published in ISMIR 2022.
 
-[![paper](https://img.shields.io/badge/preprint-10230/54139-green?logo=arxiv)](https://repositori.upf.edu/handle/10230/54139)
+<img src="https://user-images.githubusercontent.com/25322884/202705893-82aafccf-49d9-425b-b1be-af9b3e0c0d85.png" alt="pdf logo" style="width:19px;"/>  [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7316812.svg)](https://doi.org/10.5281/zenodo.7316812)
 
-<img src="https://user-images.githubusercontent.com/25322884/197386574-e7549d11-1917-4ed6-b07c-c281ab1f61c4.png" alt="pdf logo" style="width:20px;"/> [ISMIR'22 Poster [PDF]](docs/baf_poster_ismir2022.pdf)
+<img src="https://user-images.githubusercontent.com/25322884/202705893-82aafccf-49d9-425b-b1be-af9b3e0c0d85.png" alt="pdf logo" style="width:19px;"/>  [Poster](docs/baf_poster_ismir2022.pdf)
 
-<img src="https://user-images.githubusercontent.com/25322884/197385744-16028fa4-226f-4b49-a586-2f848327b823.png" alt="BAF thumbnail" style="width:300px;"/>
+<img src="https://user-images.githubusercontent.com/25322884/202706949-4c8b282b-cc84-4e39-9cfa-3ff622e34f17.png" alt="pdf logo" style="width:19px;"/>  4min video presentation:
+
+[<img src="https://user-images.githubusercontent.com/25322884/202704620-7d33679a-b38b-42ba-9b94-267f819bb66d.png" alt="BAF thumbnail" style="width:300px;"/>](https://www.youtube.com/)
 
 # Dataset
 Broadcast Audio Fingerprinting dataset is an open, available upon request, annotated dataset for the task of music monitoring in broadcast. It contains 2,000 tracks from Epidemic Sound's private catalogue as reference tracks that represent 74 hours. As queries, it contains over 57 hours of TV broadcast audio from 23 countries and 203 channels distributed with 3,425 one-min audio excerpts.
 
 It has been annotated by six annotators in total and each query has been cross-annotated by three of them obtaining high inter-annotator agreement percentages, which validates the annotation methodology and ensures the reliability of the annotations.  
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6868083.svg)](https://doi.org/10.5281/zenodo.6868083) 
+<img src="https://user-images.githubusercontent.com/25322884/202702194-eb3db6a1-94d5-45e7-8d0c-154b2239f49b.png" alt="pdf logo" style="width:20px;"/>    [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6868083.svg)](https://doi.org/10.5281/zenodo.6868083) 
 
 ## Downloading the data
 The dataset is available for conducting non-commercial research related to audio analysis. It shall not be used for music generation or music synthesis. It is **available upon request** on [Zenodo](https://doi.org/10.5281/zenodo.6868083) alongside an extended **description** of the dataset contents, **motivation**, **license**, **ownership** of the data, and the dataset **datasheet**. 
@@ -65,14 +67,32 @@ pip install -r requirements.txt
 * Dataset license is detailed in [Zenodo](https://zenodo.org/record/6868083)
 
 # Citation
-Please cite the following [publication]() when using the dataset:
+Please cite the following [publication](https://doi.org/10.5281/zenodo.7316812) when using the dataset:
 
-> Guillem Cortès, Álex Ciurana, Emilio Molina, Marius Miron, Owen Meyers, Joren Six and Xavier Serra. BAF: An Audio Fingerprinting Dataset for Broadcast Monitoring. In Proc. of the 23rd Int. Soc. for Music Information Retrieval Conf. (ISMIR), pages XXX-XXX, Bangalore, India, 2022.
+> Guillem Cortès, Alex Ciurana, Emilio Molina, Marius Miron, Owen Meyers, Joren Six, & Xavier Serra. (2022). BAF: An audio fingerprinting dataset for broadcast monitoring. Proceedings of the 23rd International Society for Music Information Retrieval Conference, 908–916. https://doi.org/10.5281/zenodo.7316812
 
 Bibtex version:
 
 ```
-TODO
+@inproceedings{cortes2022BAF,
+  author       = {Guillem Cortès and
+                  Alex Ciurana and
+                  Emilio Molina and
+                  Marius Miron and
+                  Owen Meyers and
+                  Joren Six and
+                  Xavier Serra},
+  title        = {{BAF: An audio fingerprinting dataset for broadcast monitoring}},
+  booktitle    = {{Proceedings of the 23rd International Society for Music Information Retrieval Conference}},
+  year         = 2022,
+  pages        = {908-916},
+  publisher    = {ISMIR},
+  address      = {Bengaluru, India},
+  month        = dec,
+  venue        = {Bengaluru, India},
+  doi          = {10.5281/zenodo.7316812},
+  url          = {https://doi.org/10.5281/zenodo.7316812}
+}
 ```
 
 # Acknowledgements
@@ -90,5 +110,10 @@ This research is part of *NextCore – New generation of music monitoring techno
 </p>
 
 ---
+**Attribution**  
 
-<a href="https://www.flaticon.com/free-icons/pdf" title="pdf icons">Pdf icons created by Roman Káčerek - Flaticon</a>
+<a href="https://www.flaticon.es/iconos-gratis/documento" title="documento iconos">Document icon created by iconmas - Flaticon</a>
+
+<a href="https://www.flaticon.es/iconos-gratis/almacenamiento" title="almacenamiento iconos">Database icon created by Bharat Icons - Flaticon</a>
+
+<a href="https://www.freepnglogos.com/pics/youtube-logo-png">Youtube Logo from freepnglogos.com</a>
