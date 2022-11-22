@@ -1,6 +1,6 @@
 This is an official page of "BAF: An Audio Fingerprinting Dataset For Broadcast Monitoring" published in ISMIR 2022.
 
-<img src="https://user-images.githubusercontent.com/25322884/202705893-82aafccf-49d9-425b-b1be-af9b3e0c0d85.png" alt="pdf logo" style="width:19px;"/>  [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7316812.svg)](https://doi.org/10.5281/zenodo.7316812)
+<img src="https://user-images.githubusercontent.com/25322884/202705893-82aafccf-49d9-425b-b1be-af9b3e0c0d85.png" alt="pdf logo" style="width:19px;"/>  [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7343030.svg)](https://doi.org/10.5281/zenodo.7343030)
 
 <img src="https://user-images.githubusercontent.com/25322884/202705893-82aafccf-49d9-425b-b1be-af9b3e0c0d85.png" alt="pdf logo" style="width:19px;"/>  [Poster](docs/baf_poster_ismir2022.pdf)
 
