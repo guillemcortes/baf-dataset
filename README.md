@@ -4,7 +4,7 @@ This is an official page of "BAF: An Audio Fingerprinting Dataset For Broadcast 
 
 <img src="https://user-images.githubusercontent.com/25322884/202705893-82aafccf-49d9-425b-b1be-af9b3e0c0d85.png" alt="pdf logo" style="width:19px;"/>  [Poster](docs/baf_poster_ismir2022.pdf)
 
-<img src="https://user-images.githubusercontent.com/25322884/202706949-4c8b282b-cc84-4e39-9cfa-3ff622e34f17.png" alt="pdf logo" style="width:19px;"/>  4min video presentation:
+<img src="https://user-images.githubusercontent.com/25322884/202706949-4c8b282b-cc84-4e39-9cfa-3ff622e34f17.png" alt="pdf logo" style="width:19px;"/>  4min video presentation: (To be uploaded)
 
 [<img src="https://user-images.githubusercontent.com/25322884/202704620-7d33679a-b38b-42ba-9b94-267f819bb66d.png" alt="BAF thumbnail" style="width:300px;"/>](https://www.youtube.com/)
 
