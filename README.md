@@ -68,9 +68,9 @@ pip install -r requirements.txt
 * Dataset license is detailed in [Zenodo](https://zenodo.org/record/6868083)
 
 # Citation
-Please cite the following [publication](https://doi.org/10.5281/zenodo.7316812) when using the dataset:
+Please cite the following [publication](https://doi.org/10.5281/zenodo.7372162) when using the dataset:
 
-> Guillem Cortès, Alex Ciurana, Emilio Molina, Marius Miron, Owen Meyers, Joren Six, & Xavier Serra. (2022). BAF: An audio fingerprinting dataset for broadcast monitoring. Proceedings of the 23rd International Society for Music Information Retrieval Conference, 908–916. https://doi.org/10.5281/zenodo.7316812
+> Guillem Cortès, Alex Ciurana, Emilio Molina, Marius Miron, Owen Meyers, Joren Six, & Xavier Serra. (2022). BAF: An audio fingerprinting dataset for broadcast monitoring. Proceedings of the 23rd International Society for Music Information Retrieval Conference, pp. 908–916. 4-8 December 2022, Bengaluru, India. 
 
 Bibtex version:
 
@@ -92,7 +92,7 @@ Bibtex version:
   month        = dec,
   venue        = {Bengaluru, India},
   doi          = {10.5281/zenodo.7316812},
-  url          = {https://doi.org/10.5281/zenodo.7316812}
+  url          = {https://doi.org/10.5281/zenodo.7372162}
 }
 ```
 
