@@ -1,12 +1,13 @@
 This is an official page of "BAF: An Audio Fingerprinting Dataset For Broadcast Monitoring" published in ISMIR 2022.
 
-<img src="https://user-images.githubusercontent.com/25322884/202705893-82aafccf-49d9-425b-b1be-af9b3e0c0d85.png" alt="pdf logo" style="width:19px;"/>  [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7343030.svg)](https://doi.org/10.5281/zenodo.7343030)
+<img src="https://user-images.githubusercontent.com/25322884/202705893-82aafccf-49d9-425b-b1be-af9b3e0c0d85.png" alt="pdf logo" style="width:19px;"/>  [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7372162.svg)](https://doi.org/10.5281/zenodo.7372162)
+ 
 
 <img src="https://user-images.githubusercontent.com/25322884/202705893-82aafccf-49d9-425b-b1be-af9b3e0c0d85.png" alt="pdf logo" style="width:19px;"/>  [Poster](docs/baf_poster_ismir2022.pdf)
 
-<img src="https://user-images.githubusercontent.com/25322884/202706949-4c8b282b-cc84-4e39-9cfa-3ff622e34f17.png" alt="pdf logo" style="width:19px;"/>  4min video presentation: (To be uploaded)
+<img src="https://user-images.githubusercontent.com/25322884/202706949-4c8b282b-cc84-4e39-9cfa-3ff622e34f17.png" alt="pdf logo" style="width:19px;"/>  4min video presentation:
 
-[<img src="https://user-images.githubusercontent.com/25322884/202704620-7d33679a-b38b-42ba-9b94-267f819bb66d.png" alt="BAF thumbnail" style="width:300px;"/>](https://www.youtube.com/)
+[<img src="https://user-images.githubusercontent.com/25322884/202704620-7d33679a-b38b-42ba-9b94-267f819bb66d.png" alt="BAF thumbnail" style="width:300px;"/>](https://drive.google.com/uc?export=preview&id=15uRhIXqDebPcLCC3bRqZovkL_kXCoJqn)
 
 # Dataset
 Broadcast Audio Fingerprinting dataset is an open, available upon request, annotated dataset for the task of music monitoring in broadcast. It contains 2,000 tracks from Epidemic Sound's private catalogue as reference tracks that represent 74 hours. As queries, it contains over 57 hours of TV broadcast audio from 23 countries and 203 channels distributed with 3,425 one-min audio excerpts.
