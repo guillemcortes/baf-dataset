@@ -8,6 +8,13 @@ import argparse
 import pprint
 import pandas as pd
 import intervaltree as itree
+import math
+
+
+class UnknownTagError(Exception):
+    """Unknown Tag. It must be either 'GT' (GroundTruth) or 'RS' (Results)"""
+
+    pass
 
 
 def create_tree(groundtruths, results, threshold=None):
@@ -34,9 +41,25 @@ def create_tree(groundtruths, results, threshold=None):
                 continue
             if threshold is not None and tag == "RS" and seg["score"] < threshold:
                 continue
-            interval = itree.Interval(
-                seg["query_start"], seg["query_end"], [f"{tag} {idx}"]
-            )
+            if tag == "GT":
+                if math.isnan(seg["snr"]):
+                    interval = itree.Interval(
+                        seg["query_start"],
+                        seg["query_end"],
+                        [f"{tag} {idx} SNR={math.nan}"],
+                    )
+                else:
+                    interval = itree.Interval(
+                        seg["query_start"],
+                        seg["query_end"],
+                        [f"{tag} {idx} SNR={seg['snr']}"],
+                    )
+            elif tag == "RS":
+                interval = itree.Interval(
+                    seg["query_start"], seg["query_end"], [f"{tag} {idx}"]
+                )
+            else:
+                raise UnknownTagError(f"Unkown tag {tag}")
 
             if seg["query"] not in tree:
                 tree[seg["query"]] = {}
@@ -118,13 +141,21 @@ def compute_statistics(results, groundtruths, threshold=None):
         for ref, tree in ref_trees.items():
             for interval in sorted(tree.items()):
                 status = "UNK"
-                types_found = sorted(
-                    list(set([l.split(" ")[0] for l in interval.data]))
-                )
+                # types_found = sorted(
+                #     list(set([l.split(" ")[0] for l in interval.data]))
+                # )
+                types = []
+                for l in interval.data:
+                    line = l.split(" ")
+                    types.append(line[0])
+                    if line[0] == "GT" and len(line) == 3:
+                        snr = line[2].split("SNR=")[1]
+                types_found = sorted(list(set(types)))
                 if types_found == ["GT"]:
                     status = "FN"
                 elif types_found == ["RS"]:
                     status = "FP"
+                    snr = math.nan
                 elif types_found == ["GT", "RS"]:
                     status = "TP"
                 mixed_segments.append(
@@ -134,6 +165,7 @@ def compute_statistics(results, groundtruths, threshold=None):
                         "begin": interval.begin,
                         "end": interval.end,
                         "status": status,
+                        "snr": snr,
                         "debug": interval.data,
                     }
                 )
@@ -237,7 +269,7 @@ def compute_statistics(results, groundtruths, threshold=None):
         },
     }
 
-    return out_stats
+    return out_stats, mixed_df
 
 
 if __name__ == "__main__":
@@ -256,6 +288,9 @@ if __name__ == "__main__":
         ),
     )
     parser.add_argument("annotations_file", help="Annotations groundtruth file path.")
+    parser.add_argument(
+        "-o", "--out_csv", default=None, help="Output csv file path with the stasts."
+    )
     parser.add_argument(
         "-t", "--xtag", default="unanimity", help="Cross-Annotations tag."
     )
@@ -293,5 +328,9 @@ if __name__ == "__main__":
     }
 
     # COMPUTE STATISTICS
-    stats.update(compute_statistics(res, gts, args.threshold))
+    out_stats, stats_df = compute_statistics(res, gts, args.threshold)
+    stats.update(out_stats)
     pprint.pprint(stats)
+
+    if args.out_csv is not None:
+        stats_df.to_csv(args.out_csv, index=False)
