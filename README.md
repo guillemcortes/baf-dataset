@@ -63,6 +63,9 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+# Usage
+BAF has a dedicated dataloader in [mirdata](https://github.com/mir-dataset-loaders/mirdata) that can help working with tha dataset. Check [here](https://mirdata.readthedocs.io/en/latest/source/mirdata.html#module-mirdata.datasets.baf) the documentation.
+
 # License
 * The code in this repository is licensed under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
 * Dataset license is detailed in [Zenodo](https://zenodo.org/record/6868083)
